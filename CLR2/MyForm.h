@@ -49,17 +49,21 @@ namespace CLR2 {
 	private: System::Windows::Forms::Panel^ panelY;
 	private: System::Windows::Forms::TextBox^ tbY;
 	private: System::Windows::Forms::Label^ label4;
-	private: System::Windows::Forms::RadioButton^ radioButton4;
-	private: System::Windows::Forms::RadioButton^ radioButton3;
-	private: System::Windows::Forms::RadioButton^ radioButton2;
-	private: System::Windows::Forms::RadioButton^ radioButton1;
+	private: System::Windows::Forms::RadioButton^ rbInt;
+
+	private: System::Windows::Forms::RadioButton^ rbYforX;
+
+	private: System::Windows::Forms::RadioButton^ rbXforY;
+
+	private: System::Windows::Forms::RadioButton^ rbAll;
+
 	private: System::Windows::Forms::Label^ lblResult;
 
 	private:
 		/// <summary>
 		/// Обязательная переменная конструктора.
 		/// </summary>
-		System::ComponentModel::Container ^components;
+		System::ComponentModel::Container^ components;
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
@@ -76,20 +80,20 @@ namespace CLR2 {
 			this->tbB = (gcnew System::Windows::Forms::TextBox());
 			this->tbC = (gcnew System::Windows::Forms::TextBox());
 			this->panel1 = (gcnew System::Windows::Forms::Panel());
-			this->radioButton1 = (gcnew System::Windows::Forms::RadioButton());
-			this->radioButton2 = (gcnew System::Windows::Forms::RadioButton());
-			this->radioButton3 = (gcnew System::Windows::Forms::RadioButton());
-			this->radioButton4 = (gcnew System::Windows::Forms::RadioButton());
-			this->lblResult = (gcnew System::Windows::Forms::Label());
-			this->panelY = (gcnew System::Windows::Forms::Panel());
-			this->label4 = (gcnew System::Windows::Forms::Label());
-			this->tbY = (gcnew System::Windows::Forms::TextBox());
 			this->panelX = (gcnew System::Windows::Forms::Panel());
 			this->tbX = (gcnew System::Windows::Forms::TextBox());
 			this->label5 = (gcnew System::Windows::Forms::Label());
+			this->panelY = (gcnew System::Windows::Forms::Panel());
+			this->tbY = (gcnew System::Windows::Forms::TextBox());
+			this->label4 = (gcnew System::Windows::Forms::Label());
+			this->rbInt = (gcnew System::Windows::Forms::RadioButton());
+			this->rbYforX = (gcnew System::Windows::Forms::RadioButton());
+			this->rbXforY = (gcnew System::Windows::Forms::RadioButton());
+			this->rbAll = (gcnew System::Windows::Forms::RadioButton());
+			this->lblResult = (gcnew System::Windows::Forms::Label());
 			this->panel1->SuspendLayout();
-			this->panelY->SuspendLayout();
 			this->panelX->SuspendLayout();
+			this->panelY->SuspendLayout();
 			this->SuspendLayout();
 			// 
 			// button1
@@ -100,6 +104,7 @@ namespace CLR2 {
 			this->button1->TabIndex = 0;
 			this->button1->Text = L"Расчитать";
 			this->button1->UseVisualStyleBackColor = true;
+			this->button1->Click += gcnew System::EventHandler(this, &MyForm::button1_Click);
 			// 
 			// label1
 			// 
@@ -132,7 +137,7 @@ namespace CLR2 {
 			// 
 			this->tbA->Location = System::Drawing::Point(12, 16);
 			this->tbA->Name = L"tbA";
-			this->tbA->Size = System::Drawing::Size(49, 20);
+			this->tbA->Size = System::Drawing::Size(47, 20);
 			this->tbA->TabIndex = 4;
 			// 
 			// tbB
@@ -153,92 +158,14 @@ namespace CLR2 {
 			// 
 			this->panel1->Controls->Add(this->panelX);
 			this->panel1->Controls->Add(this->panelY);
-			this->panel1->Controls->Add(this->radioButton4);
-			this->panel1->Controls->Add(this->radioButton3);
-			this->panel1->Controls->Add(this->radioButton2);
-			this->panel1->Controls->Add(this->radioButton1);
+			this->panel1->Controls->Add(this->rbInt);
+			this->panel1->Controls->Add(this->rbYforX);
+			this->panel1->Controls->Add(this->rbXforY);
+			this->panel1->Controls->Add(this->rbAll);
 			this->panel1->Location = System::Drawing::Point(12, 95);
 			this->panel1->Name = L"panel1";
 			this->panel1->Size = System::Drawing::Size(269, 149);
 			this->panel1->TabIndex = 7;
-			// 
-			// radioButton1
-			// 
-			this->radioButton1->AutoSize = true;
-			this->radioButton1->Location = System::Drawing::Point(15, 17);
-			this->radioButton1->Name = L"radioButton1";
-			this->radioButton1->Size = System::Drawing::Size(124, 17);
-			this->radioButton1->TabIndex = 8;
-			this->radioButton1->TabStop = true;
-			this->radioButton1->Text = L"Найти все решения";
-			this->radioButton1->UseVisualStyleBackColor = true;
-			// 
-			// radioButton2
-			// 
-			this->radioButton2->AutoSize = true;
-			this->radioButton2->Location = System::Drawing::Point(15, 52);
-			this->radioButton2->Name = L"radioButton2";
-			this->radioButton2->Size = System::Drawing::Size(93, 17);
-			this->radioButton2->TabIndex = 9;
-			this->radioButton2->TabStop = true;
-			this->radioButton2->Text = L"Найти х для у";
-			this->radioButton2->UseVisualStyleBackColor = true;
-			// 
-			// radioButton3
-			// 
-			this->radioButton3->AutoSize = true;
-			this->radioButton3->Location = System::Drawing::Point(15, 87);
-			this->radioButton3->Name = L"radioButton3";
-			this->radioButton3->Size = System::Drawing::Size(93, 17);
-			this->radioButton3->TabIndex = 10;
-			this->radioButton3->TabStop = true;
-			this->radioButton3->Text = L"Найти у для х";
-			this->radioButton3->UseVisualStyleBackColor = true;
-			// 
-			// radioButton4
-			// 
-			this->radioButton4->AutoSize = true;
-			this->radioButton4->Location = System::Drawing::Point(15, 123);
-			this->radioButton4->Name = L"radioButton4";
-			this->radioButton4->Size = System::Drawing::Size(206, 17);
-			this->radioButton4->TabIndex = 11;
-			this->radioButton4->TabStop = true;
-			this->radioButton4->Text = L"Найти все целочисленные решения";
-			this->radioButton4->UseVisualStyleBackColor = true;
-			// 
-			// lblResult
-			// 
-			this->lblResult->AutoSize = true;
-			this->lblResult->Location = System::Drawing::Point(24, 61);
-			this->lblResult->Name = L"lblResult";
-			this->lblResult->Size = System::Drawing::Size(35, 13);
-			this->lblResult->TabIndex = 8;
-			this->lblResult->Text = L"label4";
-			// 
-			// panelY
-			// 
-			this->panelY->Controls->Add(this->tbY);
-			this->panelY->Controls->Add(this->label4);
-			this->panelY->Location = System::Drawing::Point(197, 39);
-			this->panelY->Name = L"panelY";
-			this->panelY->Size = System::Drawing::Size(69, 30);
-			this->panelY->TabIndex = 9;
-			// 
-			// label4
-			// 
-			this->label4->AutoSize = true;
-			this->label4->Location = System::Drawing::Point(5, 8);
-			this->label4->Name = L"label4";
-			this->label4->Size = System::Drawing::Size(18, 13);
-			this->label4->TabIndex = 0;
-			this->label4->Text = L"y=";
-			// 
-			// tbY
-			// 
-			this->tbY->Location = System::Drawing::Point(30, 5);
-			this->tbY->Name = L"tbY";
-			this->tbY->Size = System::Drawing::Size(36, 20);
-			this->tbY->TabIndex = 10;
 			// 
 			// panelX
 			// 
@@ -248,6 +175,7 @@ namespace CLR2 {
 			this->panelX->Name = L"panelX";
 			this->panelX->Size = System::Drawing::Size(69, 30);
 			this->panelX->TabIndex = 11;
+			this->panelX->Visible = false;
 			// 
 			// tbX
 			// 
@@ -265,6 +193,89 @@ namespace CLR2 {
 			this->label5->TabIndex = 0;
 			this->label5->Text = L"x=";
 			// 
+			// panelY
+			// 
+			this->panelY->Controls->Add(this->tbY);
+			this->panelY->Controls->Add(this->label4);
+			this->panelY->Location = System::Drawing::Point(197, 39);
+			this->panelY->Name = L"panelY";
+			this->panelY->Size = System::Drawing::Size(69, 30);
+			this->panelY->TabIndex = 9;
+			this->panelY->Visible = false;
+			// 
+			// tbY
+			// 
+			this->tbY->Location = System::Drawing::Point(30, 5);
+			this->tbY->Name = L"tbY";
+			this->tbY->Size = System::Drawing::Size(36, 20);
+			this->tbY->TabIndex = 10;
+			// 
+			// label4
+			// 
+			this->label4->AutoSize = true;
+			this->label4->Location = System::Drawing::Point(5, 8);
+			this->label4->Name = L"label4";
+			this->label4->Size = System::Drawing::Size(18, 13);
+			this->label4->TabIndex = 0;
+			this->label4->Text = L"y=";
+			// 
+			// rbInt
+			// 
+			this->rbInt->AutoSize = true;
+			this->rbInt->Location = System::Drawing::Point(15, 123);
+			this->rbInt->Name = L"rbInt";
+			this->rbInt->Size = System::Drawing::Size(206, 17);
+			this->rbInt->TabIndex = 11;
+			this->rbInt->TabStop = true;
+			this->rbInt->Text = L"Найти все целочисленные решения";
+			this->rbInt->UseVisualStyleBackColor = true;
+			this->rbInt->CheckedChanged += gcnew System::EventHandler(this, &MyForm::rbAll_CheckedChanged);
+			// 
+			// rbYforX
+			// 
+			this->rbYforX->AutoSize = true;
+			this->rbYforX->Location = System::Drawing::Point(15, 87);
+			this->rbYforX->Name = L"rbYforX";
+			this->rbYforX->Size = System::Drawing::Size(93, 17);
+			this->rbYforX->TabIndex = 10;
+			this->rbYforX->TabStop = true;
+			this->rbYforX->Text = L"Найти у для х";
+			this->rbYforX->UseVisualStyleBackColor = true;
+			this->rbYforX->CheckedChanged += gcnew System::EventHandler(this, &MyForm::rbAll_CheckedChanged);
+			// 
+			// rbXforY
+			// 
+			this->rbXforY->AutoSize = true;
+			this->rbXforY->Location = System::Drawing::Point(15, 52);
+			this->rbXforY->Name = L"rbXforY";
+			this->rbXforY->Size = System::Drawing::Size(93, 17);
+			this->rbXforY->TabIndex = 9;
+			this->rbXforY->TabStop = true;
+			this->rbXforY->Text = L"Найти х для у";
+			this->rbXforY->UseVisualStyleBackColor = true;
+			this->rbXforY->CheckedChanged += gcnew System::EventHandler(this, &MyForm::rbAll_CheckedChanged);
+			// 
+			// rbAll
+			// 
+			this->rbAll->AutoSize = true;
+			this->rbAll->Location = System::Drawing::Point(15, 17);
+			this->rbAll->Name = L"rbAll";
+			this->rbAll->Size = System::Drawing::Size(124, 17);
+			this->rbAll->TabIndex = 8;
+			this->rbAll->TabStop = true;
+			this->rbAll->Text = L"Найти все решения";
+			this->rbAll->UseVisualStyleBackColor = true;
+			this->rbAll->CheckedChanged += gcnew System::EventHandler(this, &MyForm::rbAll_CheckedChanged);
+			// 
+			// lblResult
+			// 
+			this->lblResult->AutoSize = true;
+			this->lblResult->Location = System::Drawing::Point(24, 61);
+			this->lblResult->Name = L"lblResult";
+			this->lblResult->Size = System::Drawing::Size(35, 13);
+			this->lblResult->TabIndex = 8;
+			this->lblResult->Text = L"label4";
+			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
@@ -281,16 +292,27 @@ namespace CLR2 {
 			this->Controls->Add(this->button1);
 			this->Name = L"MyForm";
 			this->Text = L"MyForm";
+			this->Load += gcnew System::EventHandler(this, &MyForm::MyForm_Load);
 			this->panel1->ResumeLayout(false);
 			this->panel1->PerformLayout();
-			this->panelY->ResumeLayout(false);
-			this->panelY->PerformLayout();
 			this->panelX->ResumeLayout(false);
 			this->panelX->PerformLayout();
+			this->panelY->ResumeLayout(false);
+			this->panelY->PerformLayout();
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
 		}
 #pragma endregion
-	};
+
+	private: System::Void rbAll_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
+		this->panelX->Visible = this->rbYforX->Checked;
+		this->panelY->Visible = this->rbXforY->Checked;
+	}
+
+	private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e) {
+	}
+	private: System::Void MyForm_Load(System::Object^ sender, System::EventArgs^ e) {
+	}
+};
 }
