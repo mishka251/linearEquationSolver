@@ -2,6 +2,7 @@
 #include<sstream>
 #include<string>
 #include<string.h>
+#include<numeric>
 
 namespace CLR2 {
 
@@ -230,7 +231,6 @@ namespace CLR2 {
 			this->rbInt->Name = L"rbInt";
 			this->rbInt->Size = System::Drawing::Size(206, 17);
 			this->rbInt->TabIndex = 11;
-			this->rbInt->TabStop = true;
 			this->rbInt->Text = L"Найти все целочисленные решения";
 			this->rbInt->UseVisualStyleBackColor = true;
 			this->rbInt->CheckedChanged += gcnew System::EventHandler(this, &MyForm::rbAll_CheckedChanged);
@@ -242,7 +242,6 @@ namespace CLR2 {
 			this->rbYforX->Name = L"rbYforX";
 			this->rbYforX->Size = System::Drawing::Size(93, 17);
 			this->rbYforX->TabIndex = 10;
-			this->rbYforX->TabStop = true;
 			this->rbYforX->Text = L"Найти у для х";
 			this->rbYforX->UseVisualStyleBackColor = true;
 			this->rbYforX->CheckedChanged += gcnew System::EventHandler(this, &MyForm::rbAll_CheckedChanged);
@@ -254,7 +253,6 @@ namespace CLR2 {
 			this->rbXforY->Name = L"rbXforY";
 			this->rbXforY->Size = System::Drawing::Size(93, 17);
 			this->rbXforY->TabIndex = 9;
-			this->rbXforY->TabStop = true;
 			this->rbXforY->Text = L"Найти х для у";
 			this->rbXforY->UseVisualStyleBackColor = true;
 			this->rbXforY->CheckedChanged += gcnew System::EventHandler(this, &MyForm::rbAll_CheckedChanged);
@@ -262,6 +260,7 @@ namespace CLR2 {
 			// rbAll
 			// 
 			this->rbAll->AutoSize = true;
+			this->rbAll->Checked = true;
 			this->rbAll->Location = System::Drawing::Point(15, 17);
 			this->rbAll->Name = L"rbAll";
 			this->rbAll->Size = System::Drawing::Size(124, 17);
@@ -374,7 +373,68 @@ namespace CLR2 {
 		}
 		return gcnew String(str.str().c_str());
 	}
+		   /// <summary>
+		   /// Проверка на возможность целочисленного решения уравнения
+		   /// </summary>
+	private: void isPossibleIntegerSolution() {
+		auto t = parseABC();
+		double a = t->Item1; double b = t->Item2; double c = t->Item3;
+		if ((long long)a != a) {
+			throw gcnew Exception("a не целое");
+		}
+		if ((long long)b != b) {
+			throw gcnew Exception("b не целое");
+		}
+		if ((long long)c != c) {
+			throw gcnew Exception("c не целое");
+		}
 
+	}
+
+		   long long gcd(long long a, long long b, long long& x, long long& y) {
+			   if (a == 0) {
+				   x = 0; y = 1;
+				   return b;
+			   }
+			   long long x1, y1;
+			   long long d = gcd(b % a, a, x1, y1);
+			   x = y1 - (b / a) * x1;
+			   y = x1;
+			   return d;
+		   }
+
+	private: void findIntSoution() {
+		auto t = parseABC();
+		long long a = (long long)t->Item1;
+		long long b = (long long)t->Item2;
+		long long c = (long long)t->Item3;
+
+
+
+		long long d = std::gcd(a, b);
+		if (c % d != 0) {
+			lblResult->Text = "Нет целых решений";
+			return;
+		}
+		a /= d;
+		b /= d;
+		c /= d;
+
+		long long x0 = 1;
+		long long y0 = 1;
+
+		d = gcd(a, b, x0, y0);
+
+		std::stringstream str;
+		str << "x = " << (x0 * c) << "+" << b << "t";
+		str << "\n";
+		str << "y = " << (y0 * c) << "-" << a << "t";
+		str << "\n";
+		str << "где t - любое целое число";
+
+		lblResult->Text = gcnew String(str.str().c_str());
+
+	}
 
 	private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e) {
 		if (this->rbAll->Checked) {
@@ -429,7 +489,15 @@ namespace CLR2 {
 				MessageBox::Show(ex->Message);
 			}
 		}
-
+		if (rbInt->Checked) {
+			try {
+				this->isPossibleIntegerSolution();
+				findIntSoution();
+			}
+			catch (Exception^ ex) {
+				MessageBox::Show(ex->Message);
+			}
+		}
 	}
 	private: System::Void MyForm_Load(System::Object^ sender, System::EventArgs^ e) {
 	}
