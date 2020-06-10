@@ -1,4 +1,7 @@
 #pragma once
+#include<sstream>
+#include<string>
+#include<string.h>
 
 namespace CLR2 {
 
@@ -310,9 +313,124 @@ namespace CLR2 {
 		this->panelY->Visible = this->rbXforY->Checked;
 	}
 
+	private: Tuple<double, double, double>^ parseABC() {
+		double a, b, c;
+		try {
+			a = Double::Parse(tbA->Text);
+		}
+		catch (Exception^ ex) {
+			throw gcnew Exception("Не задано значение параметра \'a\' или задано в неверном формате");
+		}
+		try {
+			b = Double::Parse(tbB->Text);
+		}
+		catch (Exception^ ex) {
+			throw gcnew Exception("Не задано значение \'b\' или задано в неверном формате");
+		}
+		try {
+			c = Double::Parse(tbC->Text);
+		}
+		catch (Exception^ ex) {
+			throw gcnew Exception("Не задано значение \'c\' или задано в неверном формате");
+		}
+		return gcnew Tuple<double, double, double>(a, b, c);
+	}
+	private: double findXforY() {
+		auto t = parseABC();
+		double a = t->Item1; double b = t->Item2; double c = t->Item3;
+		double y = Double::Parse(tbY->Text);
+		double x = (-c - b * y) / a;
+		return x;
+	}
+
+	private: double findYforX() {
+		auto t = parseABC();
+		double a = t->Item1; double b = t->Item2; double c = t->Item3;
+		double x = Double::Parse(tbX->Text);
+		double y = (-c - a * x) / b;
+		return y;
+	}
+		   /// <summary>
+		   /// Функция преобразования в стрко уравнеиня прямой y=kx+b
+		   /// </summary>
+	private: String^ formatYotX(double k, double b) {
+		std::stringstream str;
+		str << "y = ";
+		if (k != 0) {
+			str << k << "* x ";
+		}
+		if (b > 0) {
+			if (k != 0) {
+				str << " + ";
+			}
+			str << b;
+		}
+		if (b < 0) {
+			str << " " << b;
+		}
+		if (k == 0 && b == 0) {
+			str << "0";
+		}
+		return gcnew String(str.str().c_str());
+	}
+
+
 	private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e) {
+		if (this->rbAll->Checked) {
+			try {
+				auto t = parseABC();
+				double a = t->Item1; double b = t->Item2; double c = t->Item3;
+				if (b != 0) {
+					double k = (-a / b);
+					double _b = (-c / b);
+
+					lblResult->Text = this->formatYotX(k, _b);
+				}
+				else {
+					if (a != 0) {
+						double x = -c / a;
+						std::stringstream str;
+						str << "x = " << x << ", y - любое";
+						lblResult->Text = gcnew String(str.str().c_str());
+					}
+					else {
+						if (c != 0) {
+							lblResult->Text = "Нет решений";
+						}
+						else {
+							lblResult->Text = "x, y - любые числа";
+						}
+					}
+				}
+			}
+			catch (Exception^ ex) {
+				MessageBox::Show(ex->Message);
+			}
+
+		}
+
+		if (rbXforY->Checked) {
+			try {
+				double x = this->findXforY();
+				this->lblResult->Text = "x = " + x;
+			}
+			catch (Exception^ ex) {
+				MessageBox::Show(ex->Message);
+			}
+		}
+
+		if (rbYforX->Checked) {
+			try {
+				double y = this->findYforX();
+				this->lblResult->Text = "y = " + y;
+			}
+			catch (Exception^ ex) {
+				MessageBox::Show(ex->Message);
+			}
+		}
+
 	}
 	private: System::Void MyForm_Load(System::Object^ sender, System::EventArgs^ e) {
 	}
-};
+	};
 }
