@@ -75,6 +75,7 @@ namespace CLR2 {
 		/// </summary>
 		void InitializeComponent(void)
 		{
+			System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(MyForm::typeid));
 			this->button1 = (gcnew System::Windows::Forms::Button());
 			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->label2 = (gcnew System::Windows::Forms::Label());
@@ -275,9 +276,8 @@ namespace CLR2 {
 			this->lblResult->AutoSize = true;
 			this->lblResult->Location = System::Drawing::Point(24, 61);
 			this->lblResult->Name = L"lblResult";
-			this->lblResult->Size = System::Drawing::Size(35, 13);
+			this->lblResult->Size = System::Drawing::Size(0, 13);
 			this->lblResult->TabIndex = 8;
-			this->lblResult->Text = L"label4";
 			// 
 			// MyForm
 			// 
@@ -293,8 +293,9 @@ namespace CLR2 {
 			this->Controls->Add(this->label2);
 			this->Controls->Add(this->label1);
 			this->Controls->Add(this->button1);
+			this->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"$this.Icon")));
 			this->Name = L"MyForm";
-			this->Text = L"MyForm";
+			this->Text = L"Решатор линейных уравнений с двумя неизвестными";
 			this->Load += gcnew System::EventHandler(this, &MyForm::MyForm_Load);
 			this->panel1->ResumeLayout(false);
 			this->panel1->PerformLayout();
@@ -355,7 +356,7 @@ namespace CLR2 {
 		   /// </summary>
 	private: String^ formatYotX(double k, double b) {
 		std::stringstream str;
-		str << "y = ";
+		str << "x - любое, y = ";
 		if (k != 0) {
 			str << k << "* x ";
 		}
