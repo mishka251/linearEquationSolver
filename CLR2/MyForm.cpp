@@ -1,6 +1,8 @@
 #include "MyForm.h"
 #include <Windows.h>
 using namespace CLR2; // Название проекта
+
+[STAThreadAttribute]
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	Application::EnableVisualStyles();
 	Application::SetCompatibleTextRenderingDefault(false);

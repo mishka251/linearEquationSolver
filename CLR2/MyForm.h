@@ -3,6 +3,8 @@
 #include<string>
 #include<string.h>
 #include<numeric>
+#include<iostream>
+#include<fstream>
 
 namespace CLR2 {
 
@@ -12,6 +14,9 @@ namespace CLR2 {
 	using namespace System::Windows::Forms;
 	using namespace System::Data;
 	using namespace System::Drawing;
+	using namespace System::IO;
+	//using namespace System::Runtime::InteropServices;
+	//using namespace System::Runtime::InteropServices::Marshal;
 
 	/// <summary>
 	/// Сводка для MyForm
@@ -62,6 +67,8 @@ namespace CLR2 {
 	private: System::Windows::Forms::RadioButton^ rbAll;
 
 	private: System::Windows::Forms::Label^ lblResult;
+	private: System::Windows::Forms::Button^ btnLoad;
+	private: System::Windows::Forms::Button^ btnSave;
 
 	private:
 		/// <summary>
@@ -96,6 +103,8 @@ namespace CLR2 {
 			this->rbXforY = (gcnew System::Windows::Forms::RadioButton());
 			this->rbAll = (gcnew System::Windows::Forms::RadioButton());
 			this->lblResult = (gcnew System::Windows::Forms::Label());
+			this->btnLoad = (gcnew System::Windows::Forms::Button());
+			this->btnSave = (gcnew System::Windows::Forms::Button());
 			this->panel1->SuspendLayout();
 			this->panelX->SuspendLayout();
 			this->panelY->SuspendLayout();
@@ -278,11 +287,33 @@ namespace CLR2 {
 			this->lblResult->Size = System::Drawing::Size(0, 13);
 			this->lblResult->TabIndex = 8;
 			// 
+			// btnLoad
+			// 
+			this->btnLoad->Location = System::Drawing::Point(329, 168);
+			this->btnLoad->Name = L"btnLoad";
+			this->btnLoad->Size = System::Drawing::Size(82, 31);
+			this->btnLoad->TabIndex = 9;
+			this->btnLoad->Text = L"Load";
+			this->btnLoad->UseVisualStyleBackColor = true;
+			this->btnLoad->Click += gcnew System::EventHandler(this, &MyForm::btnLoad_Click);
+			// 
+			// btnSave
+			// 
+			this->btnSave->Location = System::Drawing::Point(329, 121);
+			this->btnSave->Name = L"btnSave";
+			this->btnSave->Size = System::Drawing::Size(81, 34);
+			this->btnSave->TabIndex = 10;
+			this->btnSave->Text = L"Save";
+			this->btnSave->UseVisualStyleBackColor = true;
+			this->btnSave->Click += gcnew System::EventHandler(this, &MyForm::btnSave_Click);
+			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(460, 277);
+			this->Controls->Add(this->btnSave);
+			this->Controls->Add(this->btnLoad);
 			this->Controls->Add(this->lblResult);
 			this->Controls->Add(this->panel1);
 			this->Controls->Add(this->tbC);
@@ -500,6 +531,37 @@ namespace CLR2 {
 		}
 	}
 	private: System::Void MyForm_Load(System::Object^ sender, System::EventArgs^ e) {
+	}
+
+	private: System::Void btnSave_Click(System::Object^ sender, System::EventArgs^ e) {
+		String^ a = tbA->Text;
+		String^ b = tbB->Text;
+		String^ c = tbC->Text;
+
+		SaveFileDialog^ sfd = gcnew SaveFileDialog();
+		auto res = sfd->ShowDialog();
+		if (res == System::Windows::Forms::DialogResult::OK) {
+			String^ fileName = sfd->FileName;
+			StreamWriter^ sw = gcnew StreamWriter(fileName);
+			sw->WriteLine(a);
+			sw->WriteLine(b);
+			sw->WriteLine(c);
+			sw->Close();
+			MessageBox::Show("ok");
+		}
+	}
+	private: System::Void btnLoad_Click(System::Object^ sender, System::EventArgs^ e) {
+		OpenFileDialog^ ofd = gcnew OpenFileDialog();
+		auto res = ofd->ShowDialog();
+		if (res == System::Windows::Forms::DialogResult::OK) {
+			String^ fileName = ofd->FileName;
+			StreamReader^ sr = gcnew StreamReader(fileName);
+			tbA->Text = sr->ReadLine();
+			tbB->Text = sr->ReadLine();
+			tbC->Text = sr->ReadLine();
+			sr->Close();
+			MessageBox::Show("ok");
+		}
 	}
 	};
 }
